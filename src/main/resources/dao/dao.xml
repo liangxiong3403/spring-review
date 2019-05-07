@@ -65,9 +65,12 @@
     <bean id="user" class="org.liangxiong.demo.spring.entity.AbstractUser" abstract="true">
         <property name="name" value="libai"/>
         <property name="age" value="1"/>
+        <property name="sex" value="true"/>
     </bean>
-    <bean id="derivedUser" class="org.liangxiong.demo.spring.entity.DerivedUser" parent="user" init-method="initialize">
-        <!--<property name="name" value="override"/>-->
+    <bean id="derivedUser" class="org.liangxiong.demo.spring.entity.DerivedUser" parent="user" init-method="initialize"
+          lazy-init="false">
+        <property name="name" value="override"/>
+        <property name="sex" value="false"/>
     </bean>
 
 </beans>
