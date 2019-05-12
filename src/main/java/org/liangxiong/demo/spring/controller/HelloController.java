@@ -1,7 +1,7 @@
 package org.liangxiong.demo.spring.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author liangxiong
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Time:18:33
  * @Description
  */
-@RestController
+@Controller
 public class HelloController {
 
     @GetMapping("/index")

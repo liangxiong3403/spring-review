@@ -28,6 +28,7 @@ public class DerivedUser {
 
     private Optional<Dog> dog;
 
+    @Qualifier("firstFood")
     @Autowired(required = false)
     private Food food;
 

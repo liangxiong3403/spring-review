@@ -2,10 +2,7 @@ package org.liangxiong.demo.spring.config;
 
 import org.liangxiong.demo.spring.entity.Dog;
 import org.liangxiong.demo.spring.entity.Food;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 
 /**
  * @author liangxiong
@@ -17,8 +14,9 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class FoodConfiguration {
 
+    @Description("instantiate food programmatic,test multiple bean definition")
     @Primary
-    @Bean
+    @Bean("firstFood")
     public Food firstFood() {
         Food food = new Food();
         food.setName("meat");
