@@ -20,11 +20,15 @@ public class Food {
      * 初始化方法
      */
     public void init() {
-        System.out.println("init method");
+        System.out.println("Food: init method");
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**

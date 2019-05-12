@@ -51,7 +51,7 @@
     </bean>
     <bean name="children2" class="org.liangxiong.demo.spring.entity.Children" p:name="wangxizhi" c:_0="薛宝钗"
           c:userDAO-ref="userDAO"/>
-    <bean id="food" class="org.liangxiong.demo.spring.entity.Food" scope="thread" init-method="init"
+    <bean id="food" class="org.liangxiong.demo.spring.entity.Food" scope="singleton" init-method="init"
           destroy-method="destroy"/>
     <bean id="dog" class="org.liangxiong.demo.spring.entity.Dog" depends-on="food" scope="prototype">
         <property name="food" ref="food"/>
@@ -68,7 +68,7 @@
         <property name="sex" value="true"/>
     </bean>
     <bean id="derivedUser" class="org.liangxiong.demo.spring.entity.DerivedUser" parent="user" init-method="initialize"
-          lazy-init="false">
+          lazy-init="false" scope="singleton">
         <property name="name" value="override"/>
         <property name="sex" value="false"/>
     </bean>

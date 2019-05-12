@@ -1,6 +1,14 @@
 package org.liangxiong.demo.spring.entity;
 
+import org.liangxiong.demo.spring.repository.SchoolRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.ApplicationContext;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * @author liangxiong
@@ -15,6 +23,35 @@ public class DerivedUser {
     private int age;
 
     private boolean sex;
+
+    private House house;
+
+    private Optional<Dog> dog;
+
+    @Autowired(required = false)
+    private Food food;
+
+    @Resource
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private SchoolRepository schoolRepository;
+
+    @Autowired
+    public DerivedUser(House house) {
+        this.house = house;
+    }
+
+    @Inject
+    public void prepare(House house, @Qualifier("firstDog") Optional<Dog> dog) {
+        this.house = house;
+        this.dog = dog;
+    }
+
+    @Autowired
+    public void setDog(Optional<Dog> dog) {
+        this.dog = dog;
+    }
 
     public String getName() {
         return name;
@@ -38,6 +75,9 @@ public class DerivedUser {
     }
 
     public void initialize() {
-        System.out.println("initialize...");
+        System.out.println("DerivedUser: initialize...");
+        System.out.println("food:" + food.getName());
+        System.out.println("applicationContext:" + applicationContext);
+        System.out.println("schoolRepository:" + schoolRepository);
     }
 }

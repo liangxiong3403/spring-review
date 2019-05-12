@@ -6,7 +6,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config/>
+    <!-- Tip The use of <context:component-scan>
+        implicitly enables the functionality of <context:annotation-config>.
+        There is usually no need to include the <context:annotation-config> element
+        when using <context:component-scan>. -->
+    <!--<context:annotation-config/>-->
+
+    <context:component-scan base-package="org.liangxiong.demo.spring.config"/>
 
     <import resource="service/service.xml"/>
 
