@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = "org.liangxiong.demo.spring")
 public class BeanConfiguration {
+
 }

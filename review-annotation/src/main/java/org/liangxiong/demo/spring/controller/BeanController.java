@@ -3,6 +3,7 @@ package org.liangxiong.demo.spring.controller;
 import org.liangxiong.demo.spring.config.FoodConfiguration;
 import org.liangxiong.demo.spring.entity.Flower;
 import org.liangxiong.demo.spring.entity.Person;
+import org.liangxiong.demo.spring.service.IUserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -23,8 +24,10 @@ public class BeanController {
         context.refresh();
         Person person = context.getBean("person", Person.class);
         Flower flower = context.getBean("flower", Flower.class);
+        IUserService userService = context.getBean("userService", IUserService.class);
         System.out.println("person: " + person);
         System.out.println("flower's name: " + flower.getName());
+        userService.login("liangxiong", "123456");
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.*;
  * @Time:10:26
  * @Description
  */
-@Import(BeanConfiguration.class)
+@Import({BeanConfiguration.class, UserConfiguration.class, OrderConfiguration.class})
 @Configuration
 public class FoodConfiguration {
 
