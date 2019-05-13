@@ -31,4 +31,7 @@ hs_err_pid*
 *.iml
 out
 gen
+/review-annotation/target/
+/review-xml/target/
+/review-entity/target/
 /target/
