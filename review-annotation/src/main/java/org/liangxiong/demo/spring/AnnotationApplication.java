@@ -1,10 +1,11 @@
-package org.liangxiong.demo.spring.controller;
+package org.liangxiong.demo.spring;
 
-import org.liangxiong.demo.spring.config.FoodConfiguration;
+import org.liangxiong.demo.spring.config.BeanConfiguration;
 import org.liangxiong.demo.spring.entity.Flower;
 import org.liangxiong.demo.spring.entity.Person;
 import org.liangxiong.demo.spring.service.IUserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * @author liangxiong
@@ -12,15 +13,22 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @Time:19:02
  * @Description
  */
-public class BeanController {
+public class AnnotationApplication {
 
     public static void main(String[] args) {
         initContainerByConfiguration();
     }
 
     private static void initContainerByConfiguration() {
+        // 初始化context
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.register(FoodConfiguration.class, Person.class);
+        // 注册配置类
+        context.register(BeanConfiguration.class, Person.class);
+        // 获取environment
+        ConfigurableEnvironment environment = context.getEnvironment();
+        // 设置激活配置项
+        environment.setActiveProfiles("test");
+        // 刷新上下文
         context.refresh();
         Person person = context.getBean("person", Person.class);
         Flower flower = context.getBean("flower", Flower.class);

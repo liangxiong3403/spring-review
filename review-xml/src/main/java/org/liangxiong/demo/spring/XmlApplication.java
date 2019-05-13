@@ -1,6 +1,7 @@
-package org.liangxiong.demo.spring.controller;
+package org.liangxiong.demo.spring;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.liangxiong.demo.spring.repository.SchoolRepository;
 import org.liangxiong.demo.spring.service.ISchoolService;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -11,7 +12,7 @@ import org.springframework.context.support.GenericApplicationContext;
  * @Time:19:02
  * @Description
  */
-public class BeanController {
+public class XmlApplication {
 
     public static void main(String[] args) {
         initContainerByXML();
@@ -24,8 +25,10 @@ public class BeanController {
         context.refresh();
         BasicDataSource dataSource = context.getBean("dataSource", BasicDataSource.class);
         ISchoolService schoolService = context.getBean("schoolService", ISchoolService.class);
+        SchoolRepository schoolRepository = context.getBean("schoolRepository", SchoolRepository.class);
         System.out.println("dataSource: " + dataSource);
         System.out.println("schoolService: " + schoolService);
+        System.out.println("schoolRepository: " + schoolRepository);
     }
 
 }

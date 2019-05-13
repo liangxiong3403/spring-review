@@ -3,18 +3,25 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
+       xmlns:props="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<props:property-placeholder location="jdbc.properties"/>-->
+    <!--<props:property-placeholder location="classpath:jdbc.properties"/>-->
 
-    <!--<context:property-placeholder location="jdbc.properties"/>-->
+    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+
+    <!-- The use of <context:component-scan> implicitly enables the functionality of
+        <context:annotation-config>. There is usually no need to include the
+        <context:annotation-config> element when using <context:component-scan>. -->
+    <!--<context:annotation-config/>-->
 
     <context:component-scan base-package="org.liangxiong.demo.spring"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
-            <value>jdbc.properties</value>
+            <value>classpath:jdbc.properties</value>
         </property>
         <property name="properties">
             <value>custom.datasource.class=org.apache.commons.dbcp2.BasicDataSource</value>
@@ -23,7 +30,7 @@
 
     <bean id="dataSource" class="${custom.datasource.class}" destroy-method="close"
           p:url="jdbc:mysql://localhost:3306" p:username="root" p:password="admin"
-    p:driverClassName="com.mysql.jdbc.Driver"/>
+          p:driverClassName="com.mysql.jdbc.Driver"/>
 
     <bean id="dataSource2" class="${custom.datasource.class}" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
