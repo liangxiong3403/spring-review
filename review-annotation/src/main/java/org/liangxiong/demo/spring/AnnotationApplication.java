@@ -7,6 +7,8 @@ import org.liangxiong.demo.spring.service.IUserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import javax.sql.DataSource;
+
 /**
  * @author liangxiong
  * @Date:2019-04-14
@@ -27,14 +29,16 @@ public class AnnotationApplication {
         // 获取environment
         ConfigurableEnvironment environment = context.getEnvironment();
         // 设置激活配置项
-        environment.setActiveProfiles("test");
+        environment.setActiveProfiles("development", "test");
         // 刷新上下文
         context.refresh();
         Person person = context.getBean("person", Person.class);
         Flower flower = context.getBean("flower", Flower.class);
         IUserService userService = context.getBean("userService", IUserService.class);
+        DataSource dataSource = context.getBean("inMemoryDataSource", DataSource.class);
         System.out.println("person: " + person);
         System.out.println("flower's name: " + flower.getName());
+        System.out.println("dataSource: " + dataSource);
         userService.login("liangxiong", "123456");
     }
 

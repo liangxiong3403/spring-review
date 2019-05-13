@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @ImportResource("classpath:spring.xml")
 @Configuration
-public class DefaultRepositoryConfiguration implements RepositoryConfiguration {
+public class  DefaultRepositoryConfiguration implements RepositoryConfiguration {
 
     @Value("${jdbc.url}")
     private String url;
