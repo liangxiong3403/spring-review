@@ -12,8 +12,10 @@ import javax.sql.DataSource;
  * @author liangxiong
  * @Date:2019-05-12
  * @Time:10:26
- * @Description 手动配置bean
+ * @Description 手动配置bean;Any ${…} placeholders present in a @PropertySource resource location will be resolved against the
+ * set of property sources already registered against the environment
  */
+@PropertySource(name = "user", value = "classpath:${diy.property.source:config}/user.properties")
 @Import({BaseConfiguration.class, UserConfiguration.class, OrderConfiguration.class})
 @Configuration
 public class BeanConfiguration {

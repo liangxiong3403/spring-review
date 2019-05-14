@@ -19,7 +19,7 @@ public class UserConfiguration {
     private BasicDataSource dataSource;
 
     @Autowired
-    private RepositoryConfiguration repositoryConfiguration;
+    private DataSourceConfiguration dataSourceConfiguration;
 
     public UserConfiguration(BasicDataSource dataSource) {
         this.dataSource = dataSource;
@@ -27,6 +27,6 @@ public class UserConfiguration {
 
     @Bean
     public IUserService userService() {
-        return new UserServiceImpl(repositoryConfiguration.dataSource());
+        return new UserServiceImpl(dataSourceConfiguration.dataSource());
     }
 }

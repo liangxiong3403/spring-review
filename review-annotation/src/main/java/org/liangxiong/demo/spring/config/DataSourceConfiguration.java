@@ -11,8 +11,13 @@ import org.springframework.context.annotation.Configuration;
  * @Description
  */
 @Configuration
-public interface RepositoryConfiguration {
+public interface DataSourceConfiguration {
 
+    /**
+     * 声明bean
+     *
+     * @return
+     */
     @Bean
     BasicDataSource dataSource();
 }
