@@ -1,6 +1,9 @@
 package org.liangxiong.demo.spring;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.liangxiong.demo.spring.component.LoadTimeWeaverHelper;
+import org.liangxiong.demo.spring.event.AccidentFireEvent;
+import org.liangxiong.demo.spring.listener.AccidentFireListener;
 import org.liangxiong.demo.spring.repository.SchoolRepository;
 import org.liangxiong.demo.spring.service.ISchoolService;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -11,6 +14,7 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 
 import java.util.Collections;
+import java.util.Locale;
 
 /**
  * @author liangxiong
@@ -37,15 +41,27 @@ public class XmlApplication {
         reader.loadBeanDefinitions("spring.xml");
         // 刷新上下文
         context.refresh();
+        // 注册事件监听器
+//        context.addApplicationListener(new AccidentFireListener());
+        // 发布事件
+        context.publishEvent(new AccidentFireEvent("fire hazard!"));
         BasicDataSource dataSource = context.getBean("dataSource", BasicDataSource.class);
         ISchoolService schoolService = context.getBean("schoolService", ISchoolService.class);
         SchoolRepository schoolRepository = context.getBean("schoolRepository", SchoolRepository.class);
         // 需要添加spring-agent依赖;同时需要使用JVM参数:-javaagent:F:/repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar
         LoadTimeWeaver loadTimeWeaver = context.getBean("loadTimeWeaver", LoadTimeWeaver.class);
+        // 获取message resource
+        String message = context.getMessage("message", null, "default", Locale.US);
+        // 获取自定义组件
+        LoadTimeWeaverHelper loadTimeWeaverHelper = context.getBean("loadTimeWeaverHelper", LoadTimeWeaverHelper.class);
+        // 调用
+        loadTimeWeaverHelper.execute();
         System.out.println("dataSource: " + dataSource);
         System.out.println("schoolService: " + schoolService);
         System.out.println("schoolRepository: " + schoolRepository);
         System.out.println("loadTimeWeaver: " + loadTimeWeaver);
+        System.out.println("message resource: " + message);
+//        context.getBean("accidentFireListener",AccidentFireListener.class);
     }
 
 }
