@@ -8,6 +8,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.instrument.classloading.LoadTimeWeaver;
 
 import java.util.Collections;
 
@@ -39,9 +40,12 @@ public class XmlApplication {
         BasicDataSource dataSource = context.getBean("dataSource", BasicDataSource.class);
         ISchoolService schoolService = context.getBean("schoolService", ISchoolService.class);
         SchoolRepository schoolRepository = context.getBean("schoolRepository", SchoolRepository.class);
+        // 需要添加spring-agent依赖;同时需要使用JVM参数:-javaagent:F:/repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar
+        LoadTimeWeaver loadTimeWeaver = context.getBean("loadTimeWeaver", LoadTimeWeaver.class);
         System.out.println("dataSource: " + dataSource);
         System.out.println("schoolService: " + schoolService);
         System.out.println("schoolRepository: " + schoolRepository);
+        System.out.println("loadTimeWeaver: " + loadTimeWeaver);
     }
 
 }

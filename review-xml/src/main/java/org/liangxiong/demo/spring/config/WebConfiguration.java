@@ -4,9 +4,6 @@ import org.liangxiong.demo.spring.repository.SchoolRepository;
 import org.liangxiong.demo.spring.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 /**
  * @author liangxiong
@@ -26,4 +23,5 @@ public class WebConfiguration {
     public UserRepository userRepository() {
         return new UserRepository();
     }
+
 }
