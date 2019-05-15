@@ -42,13 +42,16 @@ public class XmlApplication {
         // 刷新上下文
         context.refresh();
         // 注册事件监听器
-//        context.addApplicationListener(new AccidentFireListener());
+        context.addApplicationListener(new AccidentFireListener());
         // 发布事件
         context.publishEvent(new AccidentFireEvent("fire hazard!"));
         BasicDataSource dataSource = context.getBean("dataSource", BasicDataSource.class);
         ISchoolService schoolService = context.getBean("schoolService", ISchoolService.class);
         SchoolRepository schoolRepository = context.getBean("schoolRepository", SchoolRepository.class);
-        // 需要添加spring-agent依赖;同时需要使用JVM参数:-javaagent:F:/repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar
+        /* 需要添加spring-agent依赖;同时需要使用JVM参数
+         * windows: -javaagent:F:/repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar
+         * mac: -javaagent:/Users/liangxiong/.m2//repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar
+         */
         LoadTimeWeaver loadTimeWeaver = context.getBean("loadTimeWeaver", LoadTimeWeaver.class);
         // 获取message resource
         String message = context.getMessage("message", null, "default", Locale.US);
@@ -61,7 +64,6 @@ public class XmlApplication {
         System.out.println("schoolRepository: " + schoolRepository);
         System.out.println("loadTimeWeaver: " + loadTimeWeaver);
         System.out.println("message resource: " + message);
-//        context.getBean("accidentFireListener",AccidentFireListener.class);
     }
 
 }

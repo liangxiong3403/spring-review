@@ -15,6 +15,6 @@ public class AccidentFireListener implements ApplicationListener<AccidentFireEve
 
     @Override
     public void onApplicationEvent(AccidentFireEvent event) {
-        log.info("listener diy event: {}", event);
+        log.info("listen diy event: {}", event);
     }
 }
