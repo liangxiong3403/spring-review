@@ -4,4 +4,23 @@
               http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
     <display-name>Archetype Created Web Application</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>JVM.javaagent</param-name>
+        <param-value>F:/repository/org/springframework/spring-agent/2.5.6/spring-agent-2.5.6.jar</param-value>
+    </context-param>
+
+    <!-- 配置web环境下的JVM参数,用于开启支持<context:load-time-weaver/> -->
+    <listener>
+        <listener-class>org.liangxiong.demo.spring.util.SystemPropertiesHelper</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

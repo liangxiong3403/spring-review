@@ -23,7 +23,7 @@
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
-            <value>classpath:${diy.property.location}/jdbc.properties</value>
+            <value>classpath:${diy.property.location:config}/jdbc.properties</value>
         </property>
         <property name="properties">
             <value>custom.datasource.class=org.apache.commons.dbcp2.BasicDataSource</value>
