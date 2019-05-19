@@ -2,17 +2,29 @@ package org.liangxiong.demo.spring;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.liangxiong.demo.spring.component.LoadTimeWeaverHelper;
+import org.liangxiong.demo.spring.component.UserValidator;
+import org.liangxiong.demo.spring.entity.Address;
+import org.liangxiong.demo.spring.entity.User;
 import org.liangxiong.demo.spring.event.AccidentFireEvent;
 import org.liangxiong.demo.spring.listener.AccidentFireListener;
 import org.liangxiong.demo.spring.repository.SchoolRepository;
 import org.liangxiong.demo.spring.service.ISchoolService;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.io.Resource;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
+import org.springframework.validation.DirectFieldBindingResult;
+import org.springframework.validation.Errors;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -26,6 +38,9 @@ public class XmlApplication {
 
     public static void main(String[] args) {
         initContainerByXML();
+        initFileSystemApplicationContext();
+        initUserInstance();
+        useBeanWrapper();
     }
 
     private static void initContainerByXML() {
@@ -64,6 +79,53 @@ public class XmlApplication {
         System.out.println("schoolRepository: " + schoolRepository);
         System.out.println("loadTimeWeaver: " + loadTimeWeaver);
         System.out.println("message resource: " + message);
+    }
+
+    /**
+     * 测试Resource
+     */
+    private static void initFileSystemApplicationContext() {
+        String prefix = "review-xml" + File.separator + "src/main/resources/";
+        FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(prefix + "spring.xml");
+        Resource resource = context.getResource(prefix + "config/jdbc.properties");
+        LoadTimeWeaver loadTimeWeaver = context.getBean("loadTimeWeaver", LoadTimeWeaver.class);
+        System.out.println("loadTimeWeaver2: " + loadTimeWeaver);
+        System.out.println("exists: " + resource.exists());
+    }
+
+    /**
+     * 测试Validator
+     */
+    private static void initUserInstance() {
+        // 初始化对象
+        User user = new User();
+        user.setName("libai");
+        user.setAge(120);
+        Address address = new Address();
+        address.setName("si chuan");
+        address.setCode(10086);
+        user.setAddress(address);
+        // 获取校验器
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        UserValidator userValidator = context.getBean("userValidator", UserValidator.class);
+        // 校验数据
+        if (userValidator.supports(user.getClass())) {
+            Errors errors = new DirectFieldBindingResult(user, "user");
+            userValidator.validate(user, errors);
+            errors.getAllErrors().forEach(System.out::println);
+        }
+    }
+
+    /**
+     * 测试BeanWrapper
+     */
+    private static void useBeanWrapper() {
+        BeanWrapper beanWrapper = new BeanWrapperImpl(new User());
+        beanWrapper.setPropertyValue("name", "Tom");
+        PropertyValue propertyValue = new PropertyValue("age", 18);
+        beanWrapper.setPropertyValue(propertyValue);
+        System.out.println("name from bean wrapper: " + beanWrapper.getPropertyValue("name"));
+        System.out.println("age from bean wrapper: " + beanWrapper.getPropertyValue("age"));
     }
 
 }

@@ -55,5 +55,9 @@
         <property name="messageSource" ref="messageSource"/>
     </bean>
 
+    <bean id="userValidator" class="org.liangxiong.demo.spring.component.UserValidator"/>
+
+    <bean id="addressValidator" class="org.liangxiong.demo.spring.component.AddressValidator"/>
+
     <import resource="service/service.xml"/>
 </beans>
