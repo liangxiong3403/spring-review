@@ -24,9 +24,12 @@ import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.validation.Errors;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.io.File;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author liangxiong
@@ -41,6 +44,7 @@ public class XmlApplication {
         initFileSystemApplicationContext();
         initUserInstance();
         useBeanWrapper();
+        useJSR303();
     }
 
     private static void initContainerByXML() {
@@ -99,10 +103,10 @@ public class XmlApplication {
     private static void initUserInstance() {
         // 初始化对象
         User user = new User();
-        user.setName("libai");
+        user.setName("Jack");
         user.setAge(120);
         Address address = new Address();
-        address.setName("si chuan");
+        address.setName("Beijing");
         address.setCode(10086);
         user.setAddress(address);
         // 获取校验器
@@ -126,6 +130,22 @@ public class XmlApplication {
         beanWrapper.setPropertyValue(propertyValue);
         System.out.println("name from bean wrapper: " + beanWrapper.getPropertyValue("name"));
         System.out.println("age from bean wrapper: " + beanWrapper.getPropertyValue("age"));
+    }
+
+    /**
+     * 测试JSR303
+     */
+    private static void useJSR303() {
+        // 初始化上下文
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        // 获取validator工厂
+        Validator validator = context.getBean("validator", Validator.class);
+        Address address = new Address();
+        address.setName("Shanghai");
+        address.setEmail("123456@gmail.com");
+        address.setCode(666);
+        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(address);
+        constraintViolations.stream().forEach(e -> System.out.println("message: " + e.getMessage()));
     }
 
 }

@@ -1,5 +1,6 @@
 package org.liangxiong.demo.spring.config;
 
+import org.liangxiong.demo.spring.annotation.TestAndDevelopment;
 import org.liangxiong.demo.spring.entity.Dog;
 import org.liangxiong.demo.spring.entity.Food;
 import org.springframework.context.annotation.*;
@@ -15,8 +16,8 @@ import javax.sql.DataSource;
  * @Description 手动配置bean;Any ${…} placeholders present in a @PropertySource resource location will be resolved against the
  * set of property sources already registered against the environment
  */
+@TestAndDevelopment
 @PropertySource(name = "user", value = "classpath:${diy.property.source:config}/user.properties")
-@Import({BaseConfiguration.class, UserConfiguration.class, OrderConfiguration.class})
 @Configuration
 public class BeanConfiguration {
 

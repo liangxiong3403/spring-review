@@ -16,7 +16,9 @@
         <context:annotation-config> element when using <context:component-scan>. -->
     <!--<context:annotation-config/>-->
 
-    <context:component-scan base-package="org.liangxiong.demo.spring"/>
+    <context:component-scan base-package="org.liangxiong.demo.spring">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <!-- 开启 load-time weaving;可以使用@EnableLoadTimeWeaving替代 -->
     <context:load-time-weaver/>
@@ -51,13 +53,22 @@
         </property>
     </bean>
 
+    <!-- 构造实例 -->
     <bean id="loadTimeWeaverHelper" class="org.liangxiong.demo.spring.component.LoadTimeWeaverHelper">
         <property name="messageSource" ref="messageSource"/>
     </bean>
 
-    <bean id="userValidator" class="org.liangxiong.demo.spring.component.UserValidator"/>
+    <!-- 数据校验 -->
+    <bean id="userValidator" class="org.liangxiong.demo.spring.component.UserValidator">
+        <constructor-arg name="addressValidator" ref="addressValidator"/>
+    </bean>
 
     <bean id="addressValidator" class="org.liangxiong.demo.spring.component.AddressValidator"/>
 
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <bean id="genderConstraintValidator" class="org.liangxiong.demo.spring.component.GenderConstraintValidator"/>
+
     <import resource="service/service.xml"/>
+
 </beans>
