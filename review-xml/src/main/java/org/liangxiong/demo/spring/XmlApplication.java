@@ -20,6 +20,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.io.Resource;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.validation.Errors;
@@ -45,6 +47,7 @@ public class XmlApplication {
         initUserInstance();
         useBeanWrapper();
         useJSR303();
+        useSpringExpressionLanguage();
     }
 
     private static void initContainerByXML() {
@@ -146,6 +149,36 @@ public class XmlApplication {
         address.setCode(666);
         Set<ConstraintViolation<Address>> constraintViolations = validator.validate(address);
         constraintViolations.stream().forEach(e -> System.out.println("message: " + e.getMessage()));
+    }
+
+    /**
+     * 使用Spring Expression Language
+     */
+    private static void useSpringExpressionLanguage() {
+        SpelExpressionParser parser = new SpelExpressionParser();
+        Expression expression = parser.parseExpression("'Hello World'");
+        String value = expression.getValue(String.class);
+        System.out.println("value: " + value);
+        Expression expressionConcat = parser.parseExpression("'Hello World'.concat('!')");
+        String concatValue = expressionConcat.getValue(String.class);
+        System.out.println("concatValue: " + concatValue);
+        Expression expressionBytes = parser.parseExpression("'Hello World'.bytes");
+        byte[] bytesValue = expressionBytes.getValue(byte[].class);
+        System.out.println("byte array length: " + bytesValue.length);
+        Expression expressionLength = parser.parseExpression("'Hello World'.bytes.length");
+        int length = expressionLength.getValue(int.class);
+        System.out.println("byte array length method2: " + length);
+        Expression expressionUpperCase = parser.parseExpression("new String('hello world').toUpperCase()");
+        String upperCaseValue = expressionUpperCase.getValue(String.class);
+        System.out.println("upperCaseValue: " + upperCaseValue);
+
+        User tom = new User("Tom Cruise", 18, null, "male");
+        Expression expressionName = parser.parseExpression("name");
+        String name = expressionName.getValue(tom, String.class);
+        System.out.println("name: " + name);
+        Expression expressionCondition = parser.parseExpression("'Tom Cruise'.equals(name)");
+        boolean valueCondition = expressionCondition.getValue(tom, Boolean.class);
+        System.out.println("valueCondition: " + valueCondition);
     }
 
 }
