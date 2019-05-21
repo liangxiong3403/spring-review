@@ -20,8 +20,12 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.io.Resource;
+import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.validation.Errors;
@@ -29,6 +33,7 @@ import org.springframework.validation.Errors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
@@ -171,7 +176,7 @@ public class XmlApplication {
         Expression expressionUpperCase = parser.parseExpression("new String('hello world').toUpperCase()");
         String upperCaseValue = expressionUpperCase.getValue(String.class);
         System.out.println("upperCaseValue: " + upperCaseValue);
-
+        // 解析对象属性
         User tom = new User("Tom Cruise", 18, null, "male");
         Expression expressionName = parser.parseExpression("name");
         String name = expressionName.getValue(tom, String.class);
@@ -179,6 +184,19 @@ public class XmlApplication {
         Expression expressionCondition = parser.parseExpression("'Tom Cruise'.equals(name)");
         boolean valueCondition = expressionCondition.getValue(tom, Boolean.class);
         System.out.println("valueCondition: " + valueCondition);
+        // 使用EvaluationContext
+        Address address = new Address();
+        address.setAliases(Arrays.asList("red"));
+        EvaluationContext context = new StandardEvaluationContext();
+        parser.parseExpression("aliases[0]").setValue(context, address, "blue");
+        String alias = address.getAliases().get(0);
+        System.out.println("alias: " + alias);
+        // Parser configuration
+        SpelParserConfiguration configuration = new SpelParserConfiguration(true, true);
+        ExpressionParser parserFromConfiguration = new SpelExpressionParser(configuration);
+        Expression expressionFromConfiguration = parserFromConfiguration.parseExpression("aliases[2]");
+        String addressFromConfiguration = expressionFromConfiguration.getValue(new Address(), String.class);
+        System.out.println("address's value from alias[2]: " + addressFromConfiguration);
     }
 
 }

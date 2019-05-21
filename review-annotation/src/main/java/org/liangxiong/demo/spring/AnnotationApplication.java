@@ -2,6 +2,8 @@ package org.liangxiong.demo.spring;
 
 import org.liangxiong.demo.spring.component.DiyPropertySource;
 import org.liangxiong.demo.spring.config.BeanConfiguration;
+import org.liangxiong.demo.spring.config.DefaultDataSourceConfiguration;
+import org.liangxiong.demo.spring.config.UserConfiguration;
 import org.liangxiong.demo.spring.entity.Flower;
 import org.liangxiong.demo.spring.entity.Person;
 import org.liangxiong.demo.spring.service.IUserService;
@@ -51,12 +53,18 @@ public class AnnotationApplication {
     private static AnnotationConfigApplicationContext initApplicationContext() {
         // 初始化context
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        // 注册配置类
-        context.register(BeanConfiguration.class, Person.class);
+        /**
+         * 注册配置类;注意事项无法激活下面的配置类(使用了@Profile的注解,从而导致@PropertySource失效):
+         * @TestAndDevelopment
+         * @PropertySource
+         */
+        context.register(BeanConfiguration.class, UserConfiguration.class, DefaultDataSourceConfiguration.class, Person.class, Flower.class);
         // 获取environment
         ConfigurableEnvironment environment = context.getEnvironment();
         // 设置激活配置项
         environment.setActiveProfiles("development", "test");
+        // 扫描宝
+        context.scan("org.liangxiong.demo.spring.service.impl");
         // 刷新上下文
         context.refresh();
         return context;
@@ -70,10 +78,10 @@ public class AnnotationApplication {
     private static void addPropertySource(AnnotationConfigApplicationContext context) {
         ConfigurableEnvironment environment = context.getEnvironment();
         MutablePropertySources mutablePropertySources = environment.getPropertySources();
-        // 自定义属性值,设置相对位置
-        mutablePropertySources.addBefore("user", new DiyPropertySource("color", "red"));
         // 定义用于@PropertySource参数占位符的属性值
         mutablePropertySources.addFirst(new DiyPropertySource("diy.property.source", "config"));
+        // 自定义属性值,设置相对位置
+        mutablePropertySources.addBefore("user", new DiyPropertySource("color", "red"));
     }
 
 }

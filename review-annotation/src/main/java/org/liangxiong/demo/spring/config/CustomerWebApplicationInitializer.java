@@ -27,10 +27,10 @@ public class CustomerWebApplicationInitializer implements WebApplicationInitiali
         ConfigurableEnvironment environment = context.getEnvironment();
         // 设置激活配置项
         environment.setActiveProfiles("development", "test");
-        MutablePropertySources mutablePropertySources = environment.getPropertySources();
         // 注册配置类
         context.register(BaseConfiguration.class);
         // 定义用于@PropertySource参数占位符的属性值
+        MutablePropertySources mutablePropertySources = environment.getPropertySources();
         mutablePropertySources.addFirst(new DiyPropertySource("diy.property.source", "config"));
         // 实例化视图转发servlet
         DispatcherServlet servlet = new DispatcherServlet(context);

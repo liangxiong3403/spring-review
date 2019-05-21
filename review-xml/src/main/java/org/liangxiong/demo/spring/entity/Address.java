@@ -1,12 +1,15 @@
 package org.liangxiong.demo.spring.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author liangxiong
@@ -14,6 +17,8 @@ import javax.validation.constraints.Size;
  * @Time:19:22
  * @Description 地址
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 public class Address {
@@ -36,4 +41,9 @@ public class Address {
      */
     @Email
     private String email;
+
+    /**
+     * 别名
+     */
+    public List<String> aliases;
 }

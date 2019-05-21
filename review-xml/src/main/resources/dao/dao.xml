@@ -40,16 +40,17 @@
         </property>
         <property name="accounts">
             <map>
-                <entry key="libai" value="3.6"/>
+                <entry key="libai" value="#{T(java.lang.Math).random() * 100.0}"/>
                 <entry key="dufu" value="2.3"/>
                 <entry key="ouyangxiu" value="7.4"/>
             </map>
         </property>
         <property name="name">
-            <null/>
+            <value>#{ systemProperties['user.name'] }</value>
         </property>
     </bean>
-    <bean name="children2" class="org.liangxiong.demo.spring.entity.Children" p:name="wangxizhi" c:_0="薛宝钗"/>
+    <bean name="children2" class="org.liangxiong.demo.spring.entity.Children"
+          p:name="王熙凤" c:_0="薛宝钗"/>
     <bean id="food" class="org.liangxiong.demo.spring.entity.Food" scope="singleton" init-method="init"
           destroy-method="destroy"/>
     <bean id="dog" class="org.liangxiong.demo.spring.entity.Dog" depends-on="food" scope="prototype">
