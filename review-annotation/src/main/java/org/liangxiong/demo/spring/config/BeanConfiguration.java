@@ -15,6 +15,7 @@ import javax.sql.DataSource;
  * @Description 手动配置bean;Any ${…} placeholders present in a @PropertySource resource location will be resolved against the
  * set of property sources already registered against the environment
  */
+@EnableAspectJAutoProxy
 @PropertySource(name = "user", value = "classpath:${diy.property.source:config}/user.properties")
 @Configuration
 public class BeanConfiguration {

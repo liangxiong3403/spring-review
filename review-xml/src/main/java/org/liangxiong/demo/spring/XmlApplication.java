@@ -20,7 +20,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.io.Resource;
-import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
@@ -33,10 +32,7 @@ import org.springframework.validation.Errors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author liangxiong
@@ -187,7 +183,7 @@ public class XmlApplication {
         // 使用EvaluationContext
         Address address = new Address();
         address.setAliases(Arrays.asList("red"));
-        EvaluationContext context = new StandardEvaluationContext();
+        StandardEvaluationContext context = new StandardEvaluationContext();
         parser.parseExpression("aliases[0]").setValue(context, address, "blue");
         String alias = address.getAliases().get(0);
         System.out.println("alias: " + alias);
@@ -197,6 +193,16 @@ public class XmlApplication {
         Expression expressionFromConfiguration = parserFromConfiguration.parseExpression("aliases[2]");
         String addressFromConfiguration = expressionFromConfiguration.getValue(new Address(), String.class);
         System.out.println("address's value from alias[2]: " + addressFromConfiguration);
-    }
+        // Inline lists
+        List numbersOfList = parser.parseExpression("{1,2,3,4}").getValue(context, List.class);
+        List listOfLists = parser.parseExpression("{{'a','b'},{'x','y'}}").getValue(context, List.class);
+        numbersOfList.stream().forEach(System.out::println);
+        listOfLists.stream().forEach(System.out::println);
+        // Inline Maps
+        Map inventorInfo = parser.parseExpression("{'name':'Nikola','dob':'10-July-1856'}").getValue(context, Map.class);
+        Map mapOfMaps = parser.parseExpression("{'name':{first:'Nikola','last':'Tesla'},dob:{day:10,month:'July',year:1856}}").getValue(context, Map.class);
+        System.out.println("inventorInfo: " + inventorInfo);
+        System.out.println("mapOfMaps: " + mapOfMaps);
 
+    }
 }

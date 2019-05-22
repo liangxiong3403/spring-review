@@ -46,4 +46,5 @@ public class Address {
      * 别名
      */
     public List<String> aliases;
+
 }
