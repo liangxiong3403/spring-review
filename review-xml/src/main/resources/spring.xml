@@ -67,11 +67,16 @@
         <constructor-arg name="addressValidator" ref="addressValidator"/>
     </bean>
 
+    <!-- 地址校验 -->
     <bean id="addressValidator" class="org.liangxiong.demo.spring.component.AddressValidator"/>
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+    <!-- 性别校验 -->
     <bean id="genderConstraintValidator" class="org.liangxiong.demo.spring.component.GenderConstraintValidator"/>
+
+    <!-- 声明aspect -->
+    <bean id="userAspect" class="org.liangxiong.demo.spring.aop.UserAspect"/>
 
     <import resource="service/service.xml"/>
 
