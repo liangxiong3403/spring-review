@@ -9,6 +9,7 @@ import org.liangxiong.demo.spring.event.AccidentFireEvent;
 import org.liangxiong.demo.spring.listener.AccidentFireListener;
 import org.liangxiong.demo.spring.repository.SchoolRepository;
 import org.liangxiong.demo.spring.service.ISchoolService;
+import org.liangxiong.demo.spring.service.IUserService;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyValue;
@@ -97,8 +98,11 @@ public class XmlApplication {
         FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(prefix + "spring.xml");
         Resource resource = context.getResource(prefix + "config/jdbc.properties");
         LoadTimeWeaver loadTimeWeaver = context.getBean("loadTimeWeaver", LoadTimeWeaver.class);
+        IUserService userService = context.getBean("userService", IUserService.class);
         System.out.println("loadTimeWeaver2: " + loadTimeWeaver);
+        userService.eat("meat");
         System.out.println("exists: " + resource.exists());
+        System.out.println("userService: " + userService);
     }
 
     /**

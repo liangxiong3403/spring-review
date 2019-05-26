@@ -78,6 +78,19 @@
     <!-- 声明aspect -->
     <bean id="userAspect" class="org.liangxiong.demo.spring.aop.UserAspect"/>
 
+    <aop:config>
+        <aop:aspect id="eatAspectBefore" ref="userAspect">
+            <aop:before method="washHands" pointcut-ref="userServiceBefore"/>
+            <aop:pointcut id="userServiceBefore"
+                          expression="execution(* org.liangxiong.demo.spring.service.impl.*.eat(..))"/>
+        </aop:aspect>
+        <aop:aspect id="eatAspectAfter" ref="userAspect">
+            <aop:after-returning method="walk" pointcut-ref="userServiceAfter"/>
+            <aop:pointcut id="userServiceAfter"
+                          expression="execution(* org.liangxiong.demo.spring.service.impl.*.eat(..))"/>
+        </aop:aspect>
+    </aop:config>
+
     <import resource="service/service.xml"/>
 
 </beans>

@@ -48,7 +48,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void eat(String food) {
-        System.out.printf("eat: %s ", food);
+        System.out.println("eat: " + food);
     }
 
 
