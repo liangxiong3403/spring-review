@@ -3,6 +3,7 @@ package org.liangxiong.demo.spring.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.liangxiong.demo.spring.repository.GoodRepository;
 import org.liangxiong.demo.spring.service.IOrderService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author liangxiong
@@ -10,6 +11,7 @@ import org.liangxiong.demo.spring.service.IOrderService;
  * @Time:10:07
  * @Description
  */
+@Transactional(rollbackFor = RuntimeException.class)
 @Slf4j
 public class OrderServiceImpl implements IOrderService {
 

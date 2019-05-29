@@ -3,6 +3,7 @@ package org.liangxiong.demo.spring.config;
 import org.liangxiong.demo.spring.entity.Dog;
 import org.liangxiong.demo.spring.entity.Food;
 import org.springframework.context.annotation.*;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
@@ -39,5 +40,11 @@ public class BeanConfiguration {
     public DataSource standaloneDataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.HSQL).build();
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        return transactionManager;
     }
 }

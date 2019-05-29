@@ -3,6 +3,7 @@ package org.liangxiong.demo.spring.service.impl;
 import org.liangxiong.demo.spring.dao.SchoolDAO;
 import org.liangxiong.demo.spring.dao.UserDAO;
 import org.liangxiong.demo.spring.service.IUserService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.beans.ConstructorProperties;
 
@@ -19,6 +20,12 @@ public class UserServiceImpl implements IUserService {
     private SchoolDAO schoolDAO;
 
     private int age;
+
+    private JdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public UserServiceImpl() {
     }
@@ -51,5 +58,15 @@ public class UserServiceImpl implements IUserService {
         System.out.println("eat: " + food);
     }
 
+    @Override
+    public String getName(Integer id) {
+        return this.jdbcTemplate.queryForObject("SELECT username FROM user WHERE id = ?", String.class, id);
+    }
+
+    @Override
+    public void setName(String name) {
+        jdbcTemplate.update("INSERT INTO user (username) VALUE(?)", name);
+        throw new UnsupportedOperationException();
+    }
 
 }

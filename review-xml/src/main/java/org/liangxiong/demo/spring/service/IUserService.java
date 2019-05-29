@@ -14,4 +14,19 @@ public interface IUserService {
      * @param food 食品名称
      */
     void eat(String food);
+
+    /**
+     * 获取名称
+     *
+     * @param id 主键
+     * @return
+     */
+    String getName(Integer id);
+
+    /**
+     * 设置名称
+     *
+     * @param name 名称
+     */
+    void setName(String name);
 }

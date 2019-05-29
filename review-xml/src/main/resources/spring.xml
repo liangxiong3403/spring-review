@@ -3,10 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--<props:property-placeholder location="classpath:jdbc.properties"/>-->
 
@@ -37,8 +41,8 @@
     </bean>
 
     <bean id="dataSource" class="${custom.datasource.class}" destroy-method="close"
-          p:url="jdbc:mysql://localhost:3306" p:username="root" p:password="admin"
-          p:driverClassName="com.mysql.jdbc.Driver"/>
+          p:url="jdbc:mysql://localhost:3306/test?useSSL=false" p:username="root" p:password="admin"
+          p:driverClassName="com.mysql.cj.jdbc.Driver"/>
 
     <bean id="dataSource2" class="${custom.datasource.class}" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -79,21 +83,37 @@
     <bean id="userAspect" class="org.liangxiong.demo.spring.aop.UserAspect"/>
 
     <aop:config>
+        <!-- 用户业务操作 -->
+        <aop:pointcut id="serviceOperation"
+                      expression="execution(* org.liangxiong.demo.spring.service..*.*(..))"/>
+        <!-- 事务配置切面 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
+        <!-- 吃饭前行为 -->
         <aop:aspect id="eatAspectBefore" ref="userAspect">
             <aop:before method="washHands" pointcut-ref="userServiceBefore"/>
             <aop:pointcut id="userServiceBefore"
                           expression="execution(* org.liangxiong.demo.spring.service.impl.*.eat(..))"/>
         </aop:aspect>
+        <!-- 吃饭后行为 -->
         <aop:aspect id="eatAspectAfter" ref="userAspect">
             <aop:after-returning method="walk" pointcut-ref="userServiceAfter"/>
             <aop:pointcut id="userServiceAfter"
                           expression="execution(* org.liangxiong.demo.spring.service.impl.*.eat(..))"/>
         </aop:aspect>
     </aop:config>
-
+    <!-- 事务管理器 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <!-- 事务行为 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="*" no-rollback-for="UnsupportedOperationException"/>
+        </tx:attributes>
+    </tx:advice>
 
     <import resource="service/service.xml"/>
 

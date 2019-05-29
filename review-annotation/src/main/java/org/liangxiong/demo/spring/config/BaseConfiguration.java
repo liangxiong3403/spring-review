@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author liangxiong
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Import;
  * @Time:20:02
  * @Description 配置bean扫描，彻底摆脱XML文件;excludeFilters排除扫描WebConfiguration,因为已经import了
  */
+@EnableTransactionManagement
 @TestAndDevelopment
 @Import(WebConfiguration.class)
 @Configuration

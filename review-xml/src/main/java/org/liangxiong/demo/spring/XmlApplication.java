@@ -88,6 +88,7 @@ public class XmlApplication {
         System.out.println("schoolRepository: " + schoolRepository);
         System.out.println("loadTimeWeaver: " + loadTimeWeaver);
         System.out.println("message resource: " + message);
+        context.close();
     }
 
     /**
@@ -101,8 +102,11 @@ public class XmlApplication {
         IUserService userService = context.getBean("userService", IUserService.class);
         System.out.println("loadTimeWeaver2: " + loadTimeWeaver);
         userService.eat("meat");
+        userService.setName("王巧姐");
         System.out.println("exists: " + resource.exists());
         System.out.println("userService: " + userService);
+        System.out.println("name: " + userService.getName(17));
+        context.close();
     }
 
     /**
@@ -126,6 +130,7 @@ public class XmlApplication {
             userValidator.validate(user, errors);
             errors.getAllErrors().forEach(System.out::println);
         }
+        context.close();
     }
 
     /**
@@ -154,6 +159,7 @@ public class XmlApplication {
         address.setCode(666);
         Set<ConstraintViolation<Address>> constraintViolations = validator.validate(address);
         constraintViolations.stream().forEach(e -> System.out.println("message: " + e.getMessage()));
+        context.close();
     }
 
     /**

@@ -3,11 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
     <bean id="userServiceFactory" class="org.liangxiong.demo.spring.util.DiyBeanFactory"/>
     <bean id="userService" class="org.liangxiong.demo.spring.service.impl.UserServiceImpl">
         <property name="schoolDAO">
             <ref bean="schoolDAO3"/>
         </property>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <constructor-arg index="0" value="18"/>
     </bean>
 
