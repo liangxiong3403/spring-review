@@ -137,6 +137,12 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.9</version>
         </dependency>
+        <!-- object to xml -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.9.9</version>
+        </dependency>
         <!-- aspectj -->
         <dependency>
             <groupId>org.aspectj</groupId>

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.liangxiong.demo.spring.annotation.GenderConstraint;
 import org.liangxiong.demo.spring.entity.User;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,7 +36,10 @@ public class UserController {
      *
      * @return
      */
-    @GetMapping("/matrix/{name}")
+    @GetMapping(path = "/matrix/{name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE},
+            headers = "diyHeader=diyHeader"
+    )
     public JSONObject getUserInfo(@PathVariable String name, @MatrixVariable(name = "age", pathVar = "name") Integer age, @MatrixVariable(name = "sex", pathVar = "name") String sex) {
         JSONObject user = new JSONObject(8);
         user.put("name", name);
