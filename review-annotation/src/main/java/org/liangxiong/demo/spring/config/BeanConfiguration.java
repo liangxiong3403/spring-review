@@ -42,6 +42,12 @@ public class BeanConfiguration {
                 .setType(EmbeddedDatabaseType.HSQL).build();
     }
 
+    /**
+     * 事务管理器
+     *
+     * @param dataSource 数据源
+     * @return
+     */
     @Bean
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
