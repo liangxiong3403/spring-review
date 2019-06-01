@@ -27,8 +27,9 @@ public class UserController {
      * @Valid开启对 {@link GenderConstraint}等注解的校验支持
      */
     @PostMapping
-    public void addUser(@Valid @RequestBody User user) {
+    public User addUser(@Valid @RequestBody User user) {
         log.info("user name: {}, age: {}, gender: {}", user.getName(), user.getAge(), user.getGender());
+        return user;
     }
 
     /**
@@ -46,5 +47,39 @@ public class UserController {
         user.put("age", age);
         user.put("sex", sex);
         return user;
+    }
+
+    /**
+     * 获取名称
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping("/name")
+    public String getName(@RequestParam String name) {
+        return name;
+    }
+
+    /**
+     * 获取cookie
+     *
+     * @param cookie
+     * @return
+     */
+    @RequestMapping("/cookie")
+    public String displayCookies(@CookieValue("JSESSIONID") String cookie) {
+        return cookie;
+    }
+
+    /**
+     * 获取header
+     *
+     * @param encoding
+     * @param keepAlive
+     * @return
+     */
+    @RequestMapping("/headers")
+    public String displayHeaders(@RequestHeader("Accept-Encoding") String encoding, @RequestHeader("Keep-Alive") long keepAlive) {
+        return encoding + " ; " + keepAlive;
     }
 }

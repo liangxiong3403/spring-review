@@ -40,9 +40,25 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+    <!--
+        This presents a challenge because the Servlet specification requires
+        the ServletRequest.getParameter*() family of methods to support form field
+        access only for HTTP POST, not for HTTP PUT.
+        As HttpPutFormContentFilter consumes the body of the request,
+        it should not be configured for PUT or PATCH URLs
+        that rely on other converters for application/x-www-form- urlencoded.
+        This includes @RequestBody MultiValueMap<String, String> and HttpEntity<MultiValueMap<String, String>>
+    -->
+    <filter>
+        <filter-name>formContentFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>formContentFilter</filter-name>
+        <servlet-name>dispatcherServlet</servlet-name>
+    </filter-mapping>
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -51,7 +67,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
