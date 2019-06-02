@@ -27,4 +27,10 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- 跨域配置 -->
+    <mvc:cors>
+        <mvc:mapping path="/*" allowed-origins="*" allowed-headers="*" allowed-methods="*" allow-credentials="true"
+                     max-age="1800"/>
+    </mvc:cors>
+
 </beans>

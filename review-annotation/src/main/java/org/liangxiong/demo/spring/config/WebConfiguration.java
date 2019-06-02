@@ -1,10 +1,8 @@
 package org.liangxiong.demo.spring.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -41,5 +39,26 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         UrlPathHelper urlPathHelper = new UrlPathHelper();
         urlPathHelper.setRemoveSemicolonContent(false);
         configurer.setUrlPathHelper(urlPathHelper);
+    }
+
+    /**
+     * 跨域访问配置
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+            .addMapping("/*")
+            .allowedOrigins("*")
+            .allowCredentials(true)
+            .allowedHeaders("*")
+            .allowedMethods(HttpMethod.DELETE.name(),
+                HttpMethod.GET.name(),
+                HttpMethod.HEAD.name(),
+                HttpMethod.OPTIONS.name(),
+                HttpMethod.POST.name(),
+                HttpMethod.PUT.name())
+            .maxAge(900);
     }
 }
