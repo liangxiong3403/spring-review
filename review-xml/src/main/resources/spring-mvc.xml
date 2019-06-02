@@ -16,7 +16,12 @@
       -->
     <mvc:annotation-driven enable-matrix-variables="true"/>
 
-    <!-- 配置视图解析 -->
+    <!--
+        配置视图解析(InternalResourceViewResolver应该放在chain的最后一个，因为它必定返回view)
+        Thus, putting an InternalResourceViewResolver in the chain in a place other than the last
+        results in the chain not being fully inspected,
+        because the InternalResourceViewResolver will always return a view!
+    -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/"/>
         <property name="suffix" value=".jsp"/>

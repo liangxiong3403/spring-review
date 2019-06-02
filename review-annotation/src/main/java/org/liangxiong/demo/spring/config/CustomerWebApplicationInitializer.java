@@ -38,6 +38,8 @@ public class CustomerWebApplicationInitializer implements WebApplicationInitiali
         ServletRegistration.Dynamic dynamic = servletContext.addServlet("dispatcherServlet", servlet);
         // 设置启动参数
         dynamic.setLoadOnStartup(1);
+        // 开启异步处理支持
+        dynamic.setAsyncSupported(true);
         // 设置映射路径
         dynamic.addMapping("/");
     }

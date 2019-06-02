@@ -65,6 +65,8 @@
             <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <!-- 异步支持 -->
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
