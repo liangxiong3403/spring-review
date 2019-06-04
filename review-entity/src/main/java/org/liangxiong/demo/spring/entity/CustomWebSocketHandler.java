@@ -36,6 +36,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         log.info("sessionId: {}, message: {}", session.getId(), message);
+        session.sendMessage(new TextMessage("server receive message success!"));
     }
 
     /**
