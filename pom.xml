@@ -9,6 +9,7 @@
         <module>review-xml</module>
         <module>review-annotation</module>
         <module>review-entity</module>
+        <module>review-ioc</module>
     </modules>
     <packaging>pom</packaging>
     <name>spring-review</name>
@@ -60,6 +61,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>aspectjweaver</artifactId>
+                    <groupId>org.aspectj</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -166,7 +173,10 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -174,7 +184,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version>4.3.19.RELEASE</version>
+                <version>5.2.2.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -191,6 +201,11 @@
             <dependency>
                 <groupId>org.liangxiong.demo</groupId>
                 <artifactId>review-entity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liangxiong.demo</groupId>
+                <artifactId>review-ioc</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>

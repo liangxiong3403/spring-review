@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- bean声明 -->
+    <bean id="person" class="org.liangxiong.demo.ioc.Person">
+        <property name="name" value="libai"/>
+        <property name="age" value="18"/>
+    </bean>
+    <bean id="creatingFactoryBean" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="person"/>
+    </bean>
+    <bean id="superPerson" class="org.liangxiong.demo.ioc.SuperPerson" primary="true">
+        <property name="address" value="chengdu"/>
+    </bean>
+    <bean id="repository" class="org.liangxiong.demo.ioc.Repository" autowire="byType">
+        <property name="personList">
+            <util:list>
+                <ref bean="superPerson"/>
+                <ref bean="person"/>
+            </util:list>
+        </property>
+    </bean>
+</beans>

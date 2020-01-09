@@ -35,3 +35,4 @@ gen
 /review-xml/target/
 /review-entity/target/
 /target/
+/review-ioc/target/
